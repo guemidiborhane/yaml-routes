@@ -53,7 +53,5 @@ Router::scope($scope, function($routes) {
 		$routes->connect($rt['path'], $url, $rt['args']);
 
 	}
-	if(isset($r['Routes']['fallbacks']) && $r['Routes']['fallbacks']){
 		$routes->fallbacks();
-	}
 });

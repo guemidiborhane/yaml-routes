@@ -42,7 +42,6 @@ then create your routes file `config/routes.yml`
 ```yaml
 Routes:
     scope: /
-    fallbacks: true
     index:
         path: /
         controller: Pages
