@@ -1,0 +1,22 @@
+{
+	"name": "chobo1210/yaml-route",
+	"description": "create Routing using yaml file for CakePHP 3",
+	"type": "cakephp-plugin",
+	"keywords": ["cakephp", "yaml", "config", "routes"],
+	"require": {
+		"cakephp/cakephp": "3.0.*-dev",
+		"cakephp/plugin-installer": "*",
+		"chobo1210/yaml": "dev-master"
+		},
+		"authors": [
+		{
+			"name": "Chobo Islah",
+			"email": "guemidiborhane@gmail.com"
+		}
+		],
+	"autoload": {
+		"psr-4": {
+			"YamlRoute\\": "src"
+		}
+	}
+	}
