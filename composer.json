@@ -1,6 +1,6 @@
 {
 	"name": "chobo1210/yaml-route",
-	"description": "create Routing using yaml file for CakePHP 3",
+	"description": "implements Routing using yaml file for CakePHP 3",
 	"type": "cakephp-plugin",
 	"keywords": ["cakephp", "yaml", "config", "routes"],
 	"require": {
