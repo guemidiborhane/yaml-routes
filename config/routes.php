@@ -46,6 +46,10 @@ Router::scope($scope, function($routes) {
 
 		$url = ['controller' => $rt['controller'], 'action' => $rt['action']];
 
+		if (isset($rt['method'])) {
+			$url['[method]'] = $rt['method'];
+		}
+
 		if(isset($rt['arg'])) {
 			array_push($url, $rt['arg']);
 		}
