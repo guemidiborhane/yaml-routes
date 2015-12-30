@@ -7,51 +7,89 @@ use Cake\Routing\DispatcherFactory;
 use Cake\Routing\Router;
 use Yaml\Configure\Engine\YamlConfig;
 
+$items = [];
+
 $yaml = new YamlConfig();
 if (!file_exists(CONFIG . 'routes.yml')) {
-	return false;
+    return false;
 }
-$routes_file = $yaml->read('routes');
-
-if(isset($routes_file['Routes']['scope'])){
-	$scope = $routes_file['Routes']['scope'];
-} else {
-	$scope = '/';
+$items[] = ['file' => 'routes'];
+foreach (Configure::read('plugins') as $key => $value) {
+    if (!in_array($key, ['Bake', 'YamlRoute', 'Yaml'])) {
+        $items[] = ['file' => $key . '.' . 'routes', 'plugin' => $key];
+    }
 }
+foreach ($items as $item) {
+    if (isset($item['plugin'])) {
+        $res = Cake\Core\Plugin::routes($item['plugin']);
+        if (!$res) {
+            continue;
+        }
+    }
+    $routes_file = $yaml->read($item['file']);
 
-Router::scope($scope, function($routes) {
+    if (isset($routes_file['Routes']['scope'])) {
+        $scope = $routes_file['Routes']['scope'];
+    } else {
+        $scope = '/';
+    }
 
-/*	$routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    // If isset plugin, use plugin method, set different scope and set path
+    if (isset($routes_file['Routes']['plugin'])) {
+        $method = 'plugin';
+        $scope = $routes_file['Routes']['plugin'];
+        $options = [
+            'path' => $routes_file['Routes']['scope'],
+        ];
+    } else {
+        $method = 'scope';
+        $options = [];
+    }
 
-	$routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    Router::$method($scope, $options, function ($routes) use ($item) {
 
-	$routes->connect('/voyage-sur-mesure/:slug-:id', 
-	    ['controller' => 'Offres', 'action' => 'view'],
-	    ['_name' => 'view_single_offer', 'pass' => ['id', 'slug'], 'id' => '[0-9]+']);
-*/
+        $yaml = new YamlConfig();
+        $r = $yaml->read($item['file']);
+        unset($r['Routes']['scope']);
 
-	$yaml = new YamlConfig();
-	$r = $yaml->read('routes');
-	unset($r['Routes']['scope']);
+        if (isset($r['Routes']['extensions'])) {
+            $routes->extensions($r['Routes']['extensions']);
+        }
 
-	foreach ($r['Routes'] as $k => $rt) {
+        foreach ($r['Routes'] as $k => $rt) {
+            if (in_array($k, ['plugin', 'extensions'])) {
+                continue;
+            }
 
-		if(!isset($rt['action'])) {
-			$rt['action'] = 'index';
-		}
+            if (!isset($rt['action'])) {
+                $rt['action'] = 'index';
+            }
 
-		if(!isset($rt['args'])) {
-			$rt['args'] = [];
-		}
+            if (!isset($rt['args'])) {
+                $rt['args'] = [];
+            }
 
-		$url = ['controller' => $rt['controller'], 'action' => $rt['action']];
+            $url = ['controller' => $rt['controller'], 'action' => $rt['action']];
 
-		if(isset($rt['arg'])) {
-			array_push($url, $rt['arg']);
-		}
+            // Additional values
+            foreach ($rt as $key => $value) {
+                if (!array_key_exists($key, ['controller', 'action', 'plugin', 'path', 'args'])) {
+                    $url[$key] = $value;
+                }
+            }
 
-		$routes->connect($rt['path'], $url, $rt['args']);
+            if (isset($rt['method'])) {
+                $url['[method]'] = $rt['method'];
+            }
 
-	}
-		$routes->fallbacks();
-});
+            if (isset($rt['arg'])) {
+                array_push($url, $rt['arg']);
+            }
+
+            $routes->connect($rt['path'], $url, $rt['args']);
+        }
+
+        $routes->fallbacks('DashedRoute');
+    });
+
+}
