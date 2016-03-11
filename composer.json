@@ -1,5 +1,5 @@
 {
-	"name": "guemidiborhane/yaml-route",
+	"name": "guemidiborhane/yaml-routes",
 	"description": "implements Routing using yaml file for CakePHP 3",
 	"type": "cakephp-plugin",
 	"keywords": ["cakephp", "yaml", "config", "routes"],
