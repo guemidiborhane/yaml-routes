@@ -1,5 +1,5 @@
 {
-	"name": "chobo1210/yaml-route",
+	"name": "guemidiborhane/yaml-route",
 	"description": "implements Routing using yaml file for CakePHP 3",
 	"type": "cakephp-plugin",
 	"keywords": ["cakephp", "yaml", "config", "routes"],
@@ -9,7 +9,7 @@
 		},
 		"authors": [
 		{
-			"name": "Chobo Islah",
+			"name": "Borhane Eddine Guemidi",
 			"email": "guemidiborhane@gmail.com"
 		}
 		],
