@@ -1,21 +1,21 @@
 {
-	"name": "guemidiborhane/yaml-routes",
-	"description": "implements Routing using yaml file for CakePHP 3",
-	"type": "cakephp-plugin",
-	"keywords": ["cakephp", "yaml", "config", "routes"],
-	"require": {
-		"cakephp/plugin-installer": "*",
-		"chobo1210/yaml": "dev-master"
-		},
-		"authors": [
-		{
-			"name": "Borhane Eddine Guemidi",
-			"email": "guemidiborhane@gmail.com"
-		}
-		],
-	"autoload": {
-		"psr-4": {
-			"YamlRoute\\": "src"
-		}
-	}
-	}
+  "name": "guemidiborhane/yaml-routes",
+  "description": "implements Routing using yaml file for CakePHP 3",
+  "type": "cakephp-plugin",
+  "keywords": ["cakephp", "yaml", "config", "routes"],
+  "require": {
+    "cakephp/plugin-installer": "*",
+    "guemidiborhane/yaml-config": "^1.1"
+  },
+  "authors": [
+    {
+      "name": "Borhane Eddine Guemidi",
+      "email": "guemidiborhane@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "YamlRoute\\": "src"
+    }
+  }
+}
